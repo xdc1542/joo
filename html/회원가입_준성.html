@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <fieldset class="register">
+            <legend>가입하기</legend>
+            <ul>
+                <li><label class="reg" for="new_id">아이디 </label><input type="text" id="new=id" size="20" autocomplete="on" value="@naver.com" required></li>
+                <li><label class="reg" for="new_pw1">비밀번호 </label><input type="password" id="new_pw1" size="20" required></li>
+                <li><label class="reg" for="new_pw2">비밀번호 재확인 </label><input type="password" id="new_pw2" size="20" required></li>
+                <li><label class="reg" for="user_name">이름 </label><input type="text" id="user_name" size="20" required></li>
+                <li><label class="reg" for="year">년도</label><input type="text" id="year" placeholder="년(4자)" maxLength="4" min="1900" max="2022" required></li>
+                <li>
+                    <label class="reg" for="month" required>월</label>
+                    <select id="month">
+                        <option value="january">1월</option>
+                        <option value="february">2월</option>
+                        <option value="march">3월</option>
+                        <option value="april">4월</option>
+                        <option value="may">5월</option>
+                        <option value="june">6월</option>
+                        <option value="july">7월</option>
+                        <option value="august">8월</option>
+                        <option value="september">9월</option>
+                        <option value="october">10월</option>
+                        <option value="november">11월</option>
+                        <option value="december">12월</option>
+                    </select>
+                </li>
+                <li><label class="reg" for="day" required>일</label><input type="text" id="day" placeholder="일" value="1" min="1" max="31" required></li>
+                <li>
+                    <label class="reg" for="sex" required>성별</label>
+                    <select id="sex">
+                        <option value="man">남성</option>
+                        <option value="woman">여성</option>
+                    </select>
+                </li>
+                <li><label>본인 확인 이메일<small>(선택)</small> <input type="email" id="email"></label></li>
+                <li><label class="reg" for="tel">휴대전화</label>
+                    <select id="tel">
+                        <option value="korea">대한민국 +82</option>
+                        <option value="mexico">멕시코 +52</option>
+                        <option value="brazil">브라질 +55</option>
+                    </select>
+                    <br><input type="text" id="uid" placeholder="하이픈없이 입력" maxLength="11" required>
+                </li>
+            </ul>
+            <button type="verificationcode" value="verificationcode">인증번호 받기</button>
+        </fieldset>
+        <fieldset>
+            <legend>인증번호 입력하기</legend>
+            <ul>
+                <li>
+                    <label class="reg" for="verificationcode">인증번호 입력하기</label><input type="text" id="verificationcode" placeholder="인증번호를 입력하세요" required></label>
+                </li>
+            </ul>
+        </fieldset>
+        <button type="join" value="join">가입하기</button>
+    </form>
+</body>
+</html>

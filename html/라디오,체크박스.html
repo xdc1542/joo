@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+   <title>라디오,체크박스</title>
+   <style>
+    body {background-color:#fff;}
+    form fieldset{margin-bottom:25px;}
+    form legend{font-size:15px;font-weight:600; }
+    form ul li{
+        list-style:none;
+        margin: 15px 0; /*상하, 좌우*/
+        font-size:14px;
+    }
+   </style>
+</head>
+<body>
+    <form>
+        <fieldset id="register">
+            <legend>수강 과목을 선택하세요 <small>(1과목 선택 가능)</small></legend>
+            <ul>
+                <li><label><input type="radio" name="spk" value="low" checked>영어 회화(초급)</label></li>
+                <li><label><input type="radio" name="spk" value="middle">영어 회화(중급)</label></li>
+                <li><label><input type="radio" name="spk" value="high">영어 회화(고급)</label></li>
+            </ul>
+        </fieldset>
+        <fieldset>
+            <legend> 관심분야는? <small>(다수 선택 가능)</small></legend>
+            <ul>
+                <li><label><input type="checkbox" name="pre" value="grammar" checked>문법</label></li>
+                <li><label><input type="checkbox" name="pre" value="voca">어휘</label></li>
+                <li><label><input type="checkbox" name="pre" value="speaking">회화</label></li>
+                <li><label><input type="checkbox" name="pre" value="listening">리스닝</label></li>
+                <li><label><input type="checkbox" name="pre" value="news">뉴스 청취</label></li>
+                <li><label><input type="checkbox" name="pre" value="reading">독해</label></li>
+            </ul>
+        </fieldset>
+    </form>
+</body>
+</html>
