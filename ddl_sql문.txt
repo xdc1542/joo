@@ -1,0 +1,508 @@
+drop database meyou;
+create database meyou default character set utf8;
+
+-- 커뮤니티글정보
+CREATE TABLE `CMNTY_MSTR` (
+	`POST_NO`          BIGINT       NOT NULL, -- 글번호
+	`USER_NO`          BIGINT       NOT NULL, -- 유저번호
+	`CMNTY_ID`         VARCHAR(20)  NOT NULL, -- 커뮤니티아이디
+	`POST_ID`          VARCHAR(20)  NOT NULL, -- 글종류코드
+	`SUBJECT`          VARCHAR(50)  NULL,     -- 제목
+	`CONTENT`          VARCHAR(200) NULL,     -- 내용
+	`CRT_DATE`         DATETIME     NOT NULL, -- 작성일자
+	`POST_UPDATE_DATE` DATETIME     NULL,     -- 수정일자
+	`POST_DELETE_DATE` DATETIME     NULL      -- 삭제일자
+);
+
+-- 커뮤니티글정보
+ALTER TABLE `CMNTY_MSTR`
+	ADD CONSTRAINT `PK_CMNTY_MSTR` -- 커뮤니티글정보 기본키
+	PRIMARY KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 사용자정보
+CREATE TABLE `USER_MSTR` (
+	`USER_NO`          BIGINT       NOT NULL, -- 유저번호
+	`USER_TYPE`        VARCHAR(20)  NOT NULL, -- 회원타입
+	`USER_ID`          VARCHAR(50)  NOT NULL, -- 유저아이디
+	`USER_PW`          VARCHAR(50)  NOT NULL, -- 유저비밀번호
+	`USER_NAME`        VARCHAR(50)  NOT NULL, -- 이름
+	`NICK_NAME`        VARCHAR(50)  NOT NULL, -- 닉네임
+	`GENDER`           VARCHAR(10)  NOT NULL, -- 성별
+	`DETAIL_ADDR`      VARCHAR(200) NULL,     -- 상세주소
+	`PHONE_NUM`        VARCHAR(30)  NOT NULL, -- 핸드폰번호
+	`PHONE_TYPE`       VARCHAR(10)  NOT NULL, -- 통신사
+	`BIRTH_DATE`       DATE         NOT NULL, -- 생년월일
+	`INTRODUCE`        VARCHAR(255) NULL,     -- 자기소개
+	`USER_PRF`         VARCHAR(200) NULL,     -- 유저프로필사진
+	`PRF_IMG_NAME`     VARCHAR(50)  NULL,     -- 파일명
+	`PRF_IMG_SIZE`     VARCHAR(50)  NULL,     -- 파일사이즈
+	`USER_JOIN_DATE`   DATETIME     NOT NULL, -- 가입일자
+	`USER_DELETE_DATE` DATETIME     NULL      -- 탈퇴일자
+);
+
+-- 사용자정보
+ALTER TABLE `USER_MSTR`
+	ADD CONSTRAINT `PK_USER_MSTR` -- 사용자정보 기본키
+	PRIMARY KEY (
+	`USER_NO` -- 유저번호
+	);
+
+-- 글종류
+CREATE TABLE `POST_CLS` (
+	`POST_ID`   VARCHAR(20) NOT NULL, -- 글종류코드
+	`POST_TYPE` VARCHAR(30) NOT NULL  -- 글종류
+);
+
+-- 글종류
+ALTER TABLE `POST_CLS`
+	ADD CONSTRAINT `PK_POST_CLS` -- 글종류 기본키
+	PRIMARY KEY (
+	`POST_ID` -- 글종류코드
+	);
+
+-- 후원
+CREATE TABLE `DNTN_MSTR` (
+	`DNTN_CODE`       BIGINT      NOT NULL, -- 후원코드
+	`DNTN_BSNS_CODE`  VARCHAR(20) NOT NULL, -- 후원사업코드
+	`USER_NO`         BIGINT      NOT NULL, -- 유저번호
+	`DNTN_NAME`       VARCHAR(50) NOT NULL, -- 후원자명
+	`DNTN_AMNT`       INT         NOT NULL, -- 기부금액
+	`DNTN_TYPE`       VARCHAR(30) NOT NULL, -- 후원방식
+	`DNTN_WAYCODE`    VARCHAR(20) NOT NULL, -- 결제방식코드
+	`DNTN_RCPT_STATE` VARCHAR(10) NOT NULL, -- 기부금영수증
+	`DNTN_STATECODE`  VARCHAR(20) NOT NULL, -- 후원상태코드
+	`DNTN_DATE`       DATE        NOT NULL, -- 후원일자
+	`DNTN_STATE_DATE` DATE        NULL      -- 후원상태확정일자
+);
+
+-- 후원
+ALTER TABLE `DNTN_MSTR`
+	ADD CONSTRAINT `PK_DNTN_MSTR` -- 후원 기본키
+	PRIMARY KEY (
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	);
+
+-- 신용카드
+CREATE TABLE `CRCRD_PYMNT` (
+	`DNTN_CODE`  BIGINT      NOT NULL, -- 후원코드
+	`USER_NO`    BIGINT      NOT NULL, -- 유저번호
+	`BANK`       VARCHAR(20) NOT NULL, -- 카드사
+	`ACCOUNT`    VARCHAR(50) NOT NULL, -- 카드번호
+	`CVC`        INT         NOT NULL, -- CVC
+	`VLDT_PRD`   VARCHAR(20) NOT NULL, -- 유효기간
+	`CRCRD_PASS` INT         NOT NULL  -- 카드비밀번호
+);
+
+-- 신용카드
+ALTER TABLE `CRCRD_PYMNT`
+	ADD CONSTRAINT `PK_CRCRD_PYMNT` -- 신용카드 기본키
+	PRIMARY KEY (
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	);
+
+-- 회원타입
+CREATE TABLE `USER_CLS` (
+	`USER_TYPE` VARCHAR(20) NOT NULL, -- 회원타입
+	`USER_DESC` VARCHAR(20) NOT NULL  -- 회원종류
+);
+
+-- 회원타입
+ALTER TABLE `USER_CLS`
+	ADD CONSTRAINT `PK_USER_CLS` -- 회원타입 기본키
+	PRIMARY KEY (
+	`USER_TYPE` -- 회원타입
+	);
+
+-- 커뮤니티이미지
+CREATE TABLE `CMNTY_IMG` (
+	`POST_NO`           BIGINT      NOT NULL, -- 글번호
+	`USER_NO`           BIGINT      NOT NULL, -- 유저번호
+	`THUM_NAIL_IMG_ADR` VARCHAR(50) NULL,     -- 썸네일주소
+	`POST_IMG_ADR`      VARCHAR(50) NULL,     -- 이미지주소
+	`POST_IMG_NAME`     VARCHAR(50) NULL,     -- 파일명
+	`POST_IMG_SIZE`     VARCHAR(50) NULL      -- 파일사이즈
+);
+
+-- 커뮤니티이미지
+ALTER TABLE `CMNTY_IMG`
+	ADD CONSTRAINT `PK_CMNTY_IMG` -- 커뮤니티이미지 기본키
+	PRIMARY KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 무통장입금
+CREATE TABLE `BANK_TRNSF` (
+	`DNTN_CODE`   BIGINT      NOT NULL, -- 후원코드
+	`USER_NO`     BIGINT      NOT NULL, -- 유저번호
+	`COM_BANK`    VARCHAR(20) NOT NULL, -- 회사은행
+	`COM_ACCOUNT` VARCHAR(50) NOT NULL  -- 회사계좌번호
+);
+
+-- 무통장입금
+ALTER TABLE `BANK_TRNSF`
+	ADD CONSTRAINT `PK_BANK_TRNSF` -- 무통장입금 기본키
+	PRIMARY KEY (
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	);
+
+-- 커뮤니티종류
+CREATE TABLE `CMNTY_CLS` (
+	`CMNTY_ID`   VARCHAR(20) NOT NULL, -- 커뮤니티아이디
+	`CMNTY_TYPE` VARCHAR(30) NOT NULL  -- 커뮤니티종류
+);
+
+-- 커뮤니티종류
+ALTER TABLE `CMNTY_CLS`
+	ADD CONSTRAINT `PK_CMNTY_CLS` -- 커뮤니티종류 기본키
+	PRIMARY KEY (
+	`CMNTY_ID` -- 커뮤니티아이디
+	);
+
+-- 계좌이체
+CREATE TABLE `ACNT_TRNSF` (
+	`DNTN_CODE` BIGINT      NOT NULL, -- 후원코드
+	`USER_NO`   BIGINT      NOT NULL, -- 유저번호
+	`BANK`      VARCHAR(20) NOT NULL, -- 은행
+	`ACCOUNT`   VARCHAR(50) NOT NULL, -- 계좌번호
+	`ACNT_PASS` INT         NOT NULL  -- 계좌비밀번호
+);
+
+-- 계좌이체
+ALTER TABLE `ACNT_TRNSF`
+	ADD CONSTRAINT `PK_ACNT_TRNSF` -- 계좌이체 기본키
+	PRIMARY KEY (
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	);
+
+-- 좋아요
+CREATE TABLE `CMNTY_LIKE` (
+	`POST_NO`   BIGINT NOT NULL, -- 글번호
+	`USER_NO`   BIGINT NOT NULL, -- 유저번호
+	`LIKE_USER` LONG   NOT NULL  -- 좋아요유저번호
+);
+
+-- 좋아요
+ALTER TABLE `CMNTY_LIKE`
+	ADD CONSTRAINT `PK_CMNTY_LIKE` -- 좋아요 기본키
+	PRIMARY KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 중고거래
+CREATE TABLE `SCND_HNDTR` (
+	`POST_NO` BIGINT NOT NULL, -- 글번호
+	`USER_NO` BIGINT NOT NULL, -- 유저번호
+	`PRICE`   INT    NOT NULL  -- 가격
+);
+
+-- 중고거래
+ALTER TABLE `SCND_HNDTR`
+	ADD CONSTRAINT `PK_SCND_HNDTR` -- 중고거래 기본키
+	PRIMARY KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 후원상태
+CREATE TABLE `DNTN_STATECLS` (
+	`DNTN_STATECODE` VARCHAR(20) NOT NULL, -- 후원상태코드
+	`DNTN_STATE`     VARCHAR(30) NOT NULL  -- 후원상태
+);
+
+-- 후원상태
+ALTER TABLE `DNTN_STATECLS`
+	ADD CONSTRAINT `PK_DNTN_STATECLS` -- 후원상태 기본키
+	PRIMARY KEY (
+	`DNTN_STATECODE` -- 후원상태코드
+	);
+
+-- 댓글
+CREATE TABLE `REPLY` (
+	`USER_NO`           BIGINT       NOT NULL, -- 유저번호
+	`POST_NO`           BIGINT       NOT NULL, -- 글번호
+	`REPLY_CONTENT`     VARCHAR(200) NOT NULL, -- 댓글내용
+	`REPLY_USER_NO`     LONG         NULL,     -- 댓글유저번호
+	`REPLY_UPDATE_DATE` DATETIME     NULL,     -- 댓글수정일자
+	`REPLY_DELETE_DATE` DATETIME     NULL      -- 댓글삭제일자
+);
+
+-- 댓글
+ALTER TABLE `REPLY`
+	ADD CONSTRAINT `PK_REPLY` -- 댓글 기본키
+	PRIMARY KEY (
+	`USER_NO`, -- 유저번호
+	`POST_NO`  -- 글번호
+	);
+
+-- 후원사업
+CREATE TABLE `DNTN_BSNS_MSTR` (
+	`DNTN_BSNS_CODE` VARCHAR(20) NOT NULL, -- 후원사업코드
+	`DNTN_BSNS`      VARCHAR(30) NOT NULL  -- 후원사업내용
+);
+
+-- 후원사업
+ALTER TABLE `DNTN_BSNS_MSTR`
+	ADD CONSTRAINT `PK_DNTN_BSNS_MSTR` -- 후원사업 기본키
+	PRIMARY KEY (
+	`DNTN_BSNS_CODE` -- 후원사업코드
+	);
+
+-- 결제방식
+CREATE TABLE `DNTN_WAYCLS` (
+	`DNTN_WAYCODE` VARCHAR(20) NOT NULL, -- 결제방식코드
+	`DNTN_WAY`     VARCHAR(30) NOT NULL  -- 결제방식
+);
+
+-- 결제방식
+ALTER TABLE `DNTN_WAYCLS`
+	ADD CONSTRAINT `PK_DNTN_WAYCLS` -- 결제방식 기본키
+	PRIMARY KEY (
+	`DNTN_WAYCODE` -- 결제방식코드
+	);
+
+-- 관리자채팅
+CREATE TABLE `CHAT` (
+	`USER_NO`   BIGINT       NOT NULL, -- 유저번호
+	`NICK_NAME` VARCHAR(50)  NOT NULL, -- 닉네임
+	`MESSAGE`   VARCHAR(255) NOT NULL, -- 채팅내용
+	`CHAT_DATE` DATETIME     NOT NULL  -- 채팅시간
+);
+
+-- 관리자채팅
+ALTER TABLE `CHAT`
+	ADD CONSTRAINT `PK_CHAT` -- 관리자채팅 기본키
+	PRIMARY KEY (
+	`USER_NO` -- 유저번호
+	);
+
+-- 커뮤니티글정보
+ALTER TABLE `CMNTY_MSTR`
+	ADD CONSTRAINT `FK_USER_MSTR_TO_CMNTY_MSTR` -- 사용자정보 -> 커뮤니티글정보
+	FOREIGN KEY (
+	`USER_NO` -- 유저번호
+	)
+	REFERENCES `USER_MSTR` ( -- 사용자정보
+	`USER_NO` -- 유저번호
+	);
+
+-- 커뮤니티글정보
+ALTER TABLE `CMNTY_MSTR`
+	ADD CONSTRAINT `FK_CMNTY_CLS_TO_CMNTY_MSTR` -- 커뮤니티종류 -> 커뮤니티글정보
+	FOREIGN KEY (
+	`CMNTY_ID` -- 커뮤니티아이디
+	)
+	REFERENCES `CMNTY_CLS` ( -- 커뮤니티종류
+	`CMNTY_ID` -- 커뮤니티아이디
+	);
+
+-- 커뮤니티글정보
+ALTER TABLE `CMNTY_MSTR`
+	ADD CONSTRAINT `FK_POST_CLS_TO_CMNTY_MSTR` -- 글종류 -> 커뮤니티글정보
+	FOREIGN KEY (
+	`POST_ID` -- 글종류코드
+	)
+	REFERENCES `POST_CLS` ( -- 글종류
+	`POST_ID` -- 글종류코드
+	);
+
+-- 사용자정보
+ALTER TABLE `USER_MSTR`
+	ADD CONSTRAINT `FK_USER_CLS_TO_USER_MSTR` -- 회원타입 -> 사용자정보
+	FOREIGN KEY (
+	`USER_TYPE` -- 회원타입
+	)
+	REFERENCES `USER_CLS` ( -- 회원타입
+	`USER_TYPE` -- 회원타입
+	);
+
+-- 후원
+ALTER TABLE `DNTN_MSTR`
+	ADD CONSTRAINT `FK_USER_MSTR_TO_DNTN_MSTR` -- 사용자정보 -> 후원
+	FOREIGN KEY (
+	`USER_NO` -- 유저번호
+	)
+	REFERENCES `USER_MSTR` ( -- 사용자정보
+	`USER_NO` -- 유저번호
+	);
+
+-- 후원
+ALTER TABLE `DNTN_MSTR`
+	ADD CONSTRAINT `FK_DNTN_BSNS_MSTR_TO_DNTN_MSTR` -- 후원사업 -> 후원
+	FOREIGN KEY (
+	`DNTN_BSNS_CODE` -- 후원사업코드
+	)
+	REFERENCES `DNTN_BSNS_MSTR` ( -- 후원사업
+	`DNTN_BSNS_CODE` -- 후원사업코드
+	);
+
+-- 후원
+ALTER TABLE `DNTN_MSTR`
+	ADD CONSTRAINT `FK_DNTN_STATECLS_TO_DNTN_MSTR` -- 후원상태 -> 후원
+	FOREIGN KEY (
+	`DNTN_STATECODE` -- 후원상태코드
+	)
+	REFERENCES `DNTN_STATECLS` ( -- 후원상태
+	`DNTN_STATECODE` -- 후원상태코드
+	);
+
+-- 후원
+ALTER TABLE `DNTN_MSTR`
+	ADD CONSTRAINT `FK_DNTN_WAYCLS_TO_DNTN_MSTR` -- 결제방식 -> 후원
+	FOREIGN KEY (
+	`DNTN_WAYCODE` -- 결제방식코드
+	)
+	REFERENCES `DNTN_WAYCLS` ( -- 결제방식
+	`DNTN_WAYCODE` -- 결제방식코드
+	);
+
+-- 신용카드
+ALTER TABLE `CRCRD_PYMNT`
+	ADD CONSTRAINT `FK_DNTN_MSTR_TO_CRCRD_PYMNT` -- 후원 -> 신용카드
+	FOREIGN KEY (
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	)
+	REFERENCES `DNTN_MSTR` ( -- 후원
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	);
+
+-- 커뮤니티이미지
+ALTER TABLE `CMNTY_IMG`
+	ADD CONSTRAINT `FK_CMNTY_MSTR_TO_CMNTY_IMG` -- 커뮤니티글정보 -> 커뮤니티이미지
+	FOREIGN KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	)
+	REFERENCES `CMNTY_MSTR` ( -- 커뮤니티글정보
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 무통장입금
+ALTER TABLE `BANK_TRNSF`
+	ADD CONSTRAINT `FK_DNTN_MSTR_TO_BANK_TRNSF` -- 후원 -> 무통장입금
+	FOREIGN KEY (
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	)
+	REFERENCES `DNTN_MSTR` ( -- 후원
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	);
+
+-- 계좌이체
+ALTER TABLE `ACNT_TRNSF`
+	ADD CONSTRAINT `FK_DNTN_MSTR_TO_ACNT_TRNSF` -- 후원 -> 계좌이체
+	FOREIGN KEY (
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	)
+	REFERENCES `DNTN_MSTR` ( -- 후원
+	`DNTN_CODE`, -- 후원코드
+	`USER_NO`    -- 유저번호
+	);
+
+-- 좋아요
+ALTER TABLE `CMNTY_LIKE`
+	ADD CONSTRAINT `FK_CMNTY_MSTR_TO_CMNTY_LIKE` -- 커뮤니티글정보 -> 좋아요
+	FOREIGN KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	)
+	REFERENCES `CMNTY_MSTR` ( -- 커뮤니티글정보
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 중고거래
+ALTER TABLE `SCND_HNDTR`
+	ADD CONSTRAINT `FK_CMNTY_MSTR_TO_SCND_HNDTR` -- 커뮤니티글정보 -> 중고거래
+	FOREIGN KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	)
+	REFERENCES `CMNTY_MSTR` ( -- 커뮤니티글정보
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 댓글
+ALTER TABLE `REPLY`
+	ADD CONSTRAINT `FK_CMNTY_MSTR_TO_REPLY` -- 커뮤니티글정보 -> 댓글
+	FOREIGN KEY (
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	)
+	REFERENCES `CMNTY_MSTR` ( -- 커뮤니티글정보
+	`POST_NO`, -- 글번호
+	`USER_NO`  -- 유저번호
+	);
+
+-- 관리자채팅
+ALTER TABLE `CHAT`
+	ADD CONSTRAINT `FK_USER_MSTR_TO_CHAT` -- 사용자정보 -> 관리자채팅
+	FOREIGN KEY (
+	`USER_NO` -- 유저번호
+	)
+	REFERENCES `USER_MSTR` ( -- 사용자정보
+	`USER_NO` -- 유저번호
+	);
+	
+	CREATE SEQUENCE USER_NO_SEQ START WITH 1 INCREMENT BY 1;   
+	CREATE SEQUENCE DNTN_CODE_NO_SEQ START WITH 1 INCREMENT BY 1;   
+	CREATE SEQUENCE POST_NO_SEQ START WITH 1 INCREMENT BY 1;   		
+	
+	
+	INSERT INTO USER_CLS VALUES ('ADMIN', '관리자');
+	INSERT INTO USER_CLS VALUES ('MEMBER', '일반회원');
+	
+	
+	INSERT INTO POST_CLS VALUES ('ADT_CMPL', '분양완료');
+	INSERT INTO POST_CLS VALUES ('ADT_ING', '분양중');
+	INSERT INTO POST_CLS VALUES ('CTWR_FREE', '캣타워무료나눔');
+	INSERT INTO POST_CLS VALUES ('CTWR_SELL', '캣타워판매글');
+	INSERT INTO POST_CLS VALUES ('FDST_FREE', '식사용품무료나눔');
+	INSERT INTO POST_CLS VALUES ('FDST_SELL', '식사용품판매글');
+	INSERT INTO POST_CLS VALUES ('FOOD_FREE', '소모품(식사류)무료나눔');
+	INSERT INTO POST_CLS VALUES ('FOOD_SELL', '소모품(식사류)판매글');
+	INSERT INTO POST_CLS VALUES ('FREE_CMPL', '무료나눔완료');		
+	INSERT INTO POST_CLS VALUES ('GNR_POST', '일반글');	
+	INSERT INTO POST_CLS VALUES ('HSW_FREE', '집사용품무료나눔');	
+	INSERT INTO POST_CLS VALUES ('HSW_SELL', '집사용품판매글');	
+	INSERT INTO POST_CLS VALUES ('HYG_FREE', '위생용품무료나눔');	
+	INSERT INTO POST_CLS VALUES ('HYG_SELL', '위생용품판매글');	
+	INSERT INTO POST_CLS VALUES ('NTC_POST', '공지글');	
+	INSERT INTO POST_CLS VALUES ('SELL_CMPL', '판매완료');	
+	INSERT INTO POST_CLS VALUES ('WSH_SELL', '목욕용품판매글');	
+	
+	INSERT INTO DNTN_WAYCLS VALUES ('ACNT', '계좌이체');	
+	INSERT INTO DNTN_WAYCLS VALUES ('BANK', '무통장입금');	
+	INSERT INTO DNTN_WAYCLS VALUES ('CRCRD', '신용카드');	
+	
+	INSERT INTO DNTN_STATECLS VALUES ('BANK_WAIT', '입금대기');
+	INSERT INTO DNTN_STATECLS VALUES ('DONATE_CNCL', '후원취소');
+	INSERT INTO DNTN_STATECLS VALUES ('DONATE_CNFRM', '후원확정');
+	INSERT INTO DNTN_STATECLS VALUES ('DONATE_CPL', '후원완료');
+	INSERT INTO DNTN_STATECLS VALUES ('LCK_BLC', '계좌잔액부족');
+	INSERT INTO DNTN_STATECLS VALUES ('LIMIT_EXCDD', '한도초과');
+	
+	INSERT INTO DNTN_BSNS_MSTR VALUES ('CURE_001', '치료사업001');
+	INSERT INTO DNTN_BSNS_MSTR VALUES ('PRTC_001', '보호사업001');
+	INSERT INTO DNTN_BSNS_MSTR VALUES ('STRUC_001', '구조사업001');
+	
+	INSERT INTO CMNTY_CLS VALUES ('ADP_ACT', '분양하기');
+	INSERT INTO CMNTY_CLS VALUES ('ADP_REV', '분양후기');
+	INSERT INTO CMNTY_CLS VALUES ('CAT_STR', '캣스타그램');
+	INSERT INTO CMNTY_CLS VALUES ('DON_HST', '후원내역');
+	INSERT INTO CMNTY_CLS VALUES ('FRE_SEL', '무료나눔');
+	INSERT INTO CMNTY_CLS VALUES ('USD_TRN', '중고거래');
